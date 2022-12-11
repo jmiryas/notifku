@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:notifku/screens/earthquake_detail_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
+import '../constants/constants.dart';
 import '../models/earthquake_model.dart';
+import '../screens/earthquake_detail_screen.dart';
 
 class EarthquakeScreen extends StatefulWidget {
   const EarthquakeScreen({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class EarthquakeScreen extends StatefulWidget {
 class _EarthquakeScreenState extends State<EarthquakeScreen> {
   late Future<EarthquakeModel> currentEarthquake;
 
-  Future<EarthquakeModel> fetchLaestEarthquake() async {
+  Future<EarthquakeModel> fetchLatestEarthquake() async {
     final response = await http
         .get(Uri.parse('https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json'));
 
@@ -31,7 +33,7 @@ class _EarthquakeScreenState extends State<EarthquakeScreen> {
   void initState() {
     super.initState();
 
-    currentEarthquake = fetchLaestEarthquake();
+    currentEarthquake = fetchLatestEarthquake();
   }
 
   @override
@@ -106,65 +108,95 @@ class _EarthquakeScreenState extends State<EarthquakeScreen> {
                   ),
                 ],
               ),
-              child: Column(
-                children: [
-                  Container(
-                    width: width,
-                    height: 0.60 * height,
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade100.withOpacity(0.9),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        topRight: Radius.circular(10.0),
-                      ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.asset(
-                        "assets/images/image.jpg",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5.0,
-                  ),
-                  SizedBox(
-                    width: width,
-                    height: 0.05 * height,
-                    // color: Colors.yellow,
-                    child: Center(
-                      child: Text(
-                        "Gempa Magnitude 4.5",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 0.04 * height,
-                          letterSpacing: 1.2,
+              child: FutureBuilder<EarthquakeModel>(
+                future: currentEarthquake,
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Container(
+                          width: width,
+                          height: 0.60 * height,
+                          padding: const EdgeInsets.all(15.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100.withOpacity(0.9),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
+                            ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  "$ShakeMapAPI${snapshot.data!.shakemap}",
+                              placeholder: (context, url) => const Center(
+                                child: SizedBox(
+                                  width: 25.0,
+                                  height: 25.0,
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Center(
+                                child: Icon(Icons.image),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: width,
-                    height: 0.04 * height,
-                    // color: Colors.orange,
-                    child: Center(
-                      child: Text(
-                        "12 Desember 2022",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 0.025 * height,
-                          letterSpacing: 1.0,
+                        const SizedBox(
+                          height: 5.0,
                         ),
-                      ),
+                        SizedBox(
+                          width: width,
+                          height: 0.05 * height,
+                          // color: Colors.yellow,
+                          child: Center(
+                            child: Text(
+                              "Gempa Magnitude ${snapshot.data!.magnitude}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 0.04 * height,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: width,
+                          height: 0.04 * height,
+                          // color: Colors.orange,
+                          child: Center(
+                            child: Text(
+                              "${snapshot.data!.tanggal}, ${snapshot.data!.jam}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 0.025 * height,
+                                letterSpacing: 1.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                      child: Text("Maaf, terjadi error"),
+                    );
+                  }
+
+                  return const Center(
+                    child: SizedBox(
+                      width: 25.0,
+                      height: 25.0,
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-                ],
+                  );
+                }),
               ),
             ),
           ),
