@@ -74,45 +74,47 @@ class _EarthquakeScreenState extends State<EarthquakeScreen> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const EarthquakeDetailScreen(),
-                ),
-              );
-            },
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 15.0,
-                right: 15.0,
-                top: 0.20 * height,
+          Container(
+            margin: EdgeInsets.only(
+              left: 15.0,
+              right: 15.0,
+              top: 0.20 * height,
+            ),
+            width: width,
+            height: 0.70 * height,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10.0),
               ),
-              width: width,
-              height: 0.70 * height,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    blurRadius: 1.0,
-                    spreadRadius: 1.0,
-                    offset: const Offset(
-                      0.5,
-                      1.0,
-                    ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  blurRadius: 1.0,
+                  spreadRadius: 1.0,
+                  offset: const Offset(
+                    0.5,
+                    1.0,
                   ),
-                ],
-              ),
-              child: FutureBuilder<EarthquakeModel>(
-                future: currentEarthquake,
-                builder: ((context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
+                ),
+              ],
+            ),
+            child: FutureBuilder<EarthquakeModel>(
+              future: currentEarthquake,
+              builder: ((context, snapshot) {
+                if (snapshot.hasData) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EarthquakeDetailScreen(
+                            earthquake: snapshot.data!,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Column(
                       children: [
                         Container(
                           width: width,
@@ -182,22 +184,22 @@ class _EarthquakeScreenState extends State<EarthquakeScreen> {
                           ),
                         ),
                       ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return const Center(
-                      child: Text("Maaf, terjadi error"),
-                    );
-                  }
-
-                  return const Center(
-                    child: SizedBox(
-                      width: 25.0,
-                      height: 25.0,
-                      child: CircularProgressIndicator(),
                     ),
                   );
-                }),
-              ),
+                } else if (snapshot.hasError) {
+                  return const Center(
+                    child: Text("Maaf, terjadi error"),
+                  );
+                }
+
+                return const Center(
+                  child: SizedBox(
+                    width: 25.0,
+                    height: 25.0,
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }),
             ),
           ),
         ],
