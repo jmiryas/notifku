@@ -54,48 +54,21 @@ class _EarthquakeScreenState extends State<EarthquakeScreen> {
             margin: EdgeInsets.only(
               left: 15.0,
               right: 15.0,
-              top: 0.09 * height,
-            ),
-            // color: Colors.orange,
-            width: width,
-            height: 0.1 * height,
-            child: Center(
-              child: Text(
-                "Gempa Terbaru",
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 0.065 * height,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                  fontFamily: "Lora-Regular",
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              left: 15.0,
-              right: 15.0,
-              top: 0.20 * height,
+              top: 0.1 * height,
             ),
             width: width,
-            height: 0.70 * height,
+            height: 0.8 * height,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10.0),
-              ),
+              borderRadius: BorderRadius.circular(15.0),
+              // implement shadow effect
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  blurRadius: 1.0,
-                  spreadRadius: 1.0,
-                  offset: const Offset(
-                    0.5,
-                    1.0,
-                  ),
+                  color: Colors.black54.withOpacity(0.2),
+                  blurRadius: 5,
+                  offset: const Offset(3, 3),
+                  spreadRadius: 0.1,
+                  blurStyle: BlurStyle.normal,
                 ),
               ],
             ),
@@ -105,31 +78,92 @@ class _EarthquakeScreenState extends State<EarthquakeScreen> {
                 if (snapshot.hasData) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EarthquakeDetailScreen(
-                            earthquake: snapshot.data!,
-                          ),
-                        ),
+                      showDialog(
+                        context: context,
+                        builder: ((context) {
+                          return AlertDialog(
+                            title: const Text(
+                              "Informasi Gempa",
+                              textAlign: TextAlign.center,
+                            ),
+                            content: SizedBox(
+                              height: 150.0,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Gempa Magnitude ${snapshot.data!.magnitude}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Text(
+                                      "${snapshot.data!.tanggal}, ${snapshot.data!.jam}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Text(
+                                      snapshot.data!.wilayah,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Text(
+                                      "Kedalaman: ${snapshot.data!.kedalaman}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Text(
+                                      "Dirasakan: ${snapshot.data!.dirasakan}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
                       );
                     },
                     child: Column(
                       children: [
                         Container(
                           width: width,
-                          height: 0.60 * height,
-                          padding: const EdgeInsets.all(15.0),
+                          height: 0.7 * height,
+                          padding:
+                              const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                           decoration: BoxDecoration(
                             color: Colors.grey.shade100.withOpacity(0.9),
                             borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0),
+                              topLeft: Radius.circular(15.0),
+                              topRight: Radius.circular(15.0),
                             ),
                           ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(15.0),
+                              topRight: Radius.circular(15.0),
+                            ),
                             child: CachedNetworkImage(
+                              fit: BoxFit.fill,
                               imageUrl:
                                   "$ShakeMapAPI${snapshot.data!.shakemap}",
                               placeholder: (context, url) => const Center(
@@ -146,41 +180,53 @@ class _EarthquakeScreenState extends State<EarthquakeScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        SizedBox(
+                        Container(
                           width: width,
-                          height: 0.05 * height,
-                          // color: Colors.yellow,
-                          child: Center(
-                            child: Text(
-                              "Gempa Magnitude ${snapshot.data!.magnitude}",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 0.04 * height,
-                                letterSpacing: 1.2,
-                              ),
+                          height: 0.1 * height,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF227093),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15.0),
+                              bottomRight: Radius.circular(15.0),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: width,
-                          height: 0.04 * height,
-                          // color: Colors.orange,
-                          child: Center(
-                            child: Text(
-                              "${snapshot.data!.tanggal}, ${snapshot.data!.jam}",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 0.025 * height,
-                                letterSpacing: 1.0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: width,
+                                height: 0.4 * (0.1 * height),
+                                child: Center(
+                                  child: Text(
+                                    "Gempa Magnitude ${snapshot.data!.magnitude}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 1.2,
+                                      fontSize: 0.7 * (0.4 * (0.1 * height)),
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              SizedBox(
+                                width: width,
+                                height: 0.3 * (0.1 * height),
+                                child: Center(
+                                  child: Text(
+                                    "${snapshot.data!.tanggal}, ${snapshot.data!.jam}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 1.0,
+                                      fontSize: 0.6 * (0.3 * (0.1 * height)),
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

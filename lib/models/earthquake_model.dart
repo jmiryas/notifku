@@ -39,8 +39,8 @@ class EarthquakeModel {
         kedalaman: json["Kedalaman"],
         wilayah: json["Wilayah"],
         potensi: json["Potensi"],
-        dirasakan: json["Dirasakan"],
-        shakemap: json["Shakemap"],
+        dirasakan: json["Dirasakan"] ?? "",
+        shakemap: json["Shakemap"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
