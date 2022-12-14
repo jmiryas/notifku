@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const String gempaTerbaruAPI =
     "https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json";
 
@@ -7,6 +9,9 @@ const String gempaMagnitude5Plus =
 const String shakeMapAPI = "https://data.bmkg.go.id/DataMKG/TEWS/";
 
 const containerBackgroundColor = 0xFF227093;
+
+const Color unselectedItemColor = Color.fromARGB(255, 142, 194, 218);
+const Color scaffoldBgColor = Color.fromARGB(255, 235, 236, 243);
 
 const earthquakeColor1 = 0xFFf5cd79;
 const earthquakeColor2 = 0xFFf19066;

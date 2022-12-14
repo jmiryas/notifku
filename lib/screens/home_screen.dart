@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
-import 'package:notifku/screens/about_us_screen.dart';
 
-import '../screens/earthquake_magnitude_five_plus_screen.dart';
+import '../constants/constants.dart';
+import '../screens/about_us_screen.dart';
 import '../screens/earthquake_screen.dart';
+import '../screens/earthquake_magnitude_five_plus_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -52,8 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.white,
-        unselectedItemColor: const Color.fromARGB(255, 142, 194, 218),
-        backgroundColor: const Color(0xFF227093),
+        unselectedItemColor: unselectedItemColor,
+        backgroundColor: const Color(containerBackgroundColor),
       ),
     );
   }

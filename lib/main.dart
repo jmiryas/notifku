@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../screens/home_screen.dart';
+import '../constants/constants.dart';
 import '../models/earthquake_model.dart';
 
 const gempaTerbaruAPI = "gempaTerbaruAPI";
@@ -17,8 +18,7 @@ void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     switch (task) {
       case gempaTerbaruAPI:
-        var result = await http.get(
-            Uri.parse("https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json"));
+        var result = await http.get(Uri.parse(shakeMapAPI));
 
         var resultJson = json.decode(result.body);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notifku/models/earthquake_model.dart';
+
+import '../models/earthquake_model.dart';
 
 class CustomAlertDialogWidget extends StatelessWidget {
   final String title;
@@ -61,12 +62,14 @@ class CustomAlertDialogWidget extends StatelessWidget {
               const SizedBox(
                 height: 10.0,
               ),
-              Text(
-                "Dirasakan: ${earthquake.dirasakan}",
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
+              earthquake.dirasakan.isEmpty
+                  ? const SizedBox()
+                  : Text(
+                      "Dirasakan: ${earthquake.dirasakan}",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
             ],
           ),
         ),

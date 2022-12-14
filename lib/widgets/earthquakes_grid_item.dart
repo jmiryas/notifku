@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 import '../models/earthquake_model.dart';
+import '../widgets/custom_alert_dialog_widget.dart';
 
 class EarthquakesGridItem extends StatelessWidget {
   final EarthquakeModel earthquake;
@@ -38,7 +39,15 @@ class EarthquakesGridItem extends StatelessWidget {
           ),
         ),
         trailing: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: ((context) {
+                return CustomAlertDialogWidget(
+                    title: "Informasi Gempa", earthquake: earthquake);
+              }),
+            );
+          },
           icon: Icon(
             Icons.info,
             color: isMagnitudeMoreThan5 ? Colors.white : Colors.black,

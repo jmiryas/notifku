@@ -44,7 +44,7 @@ class _EarthquakeScreenState extends State<EarthquakeScreen> {
     double height = MediaQuery.of(context).size.height - statusBarHeight;
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 235, 236, 243),
+      backgroundColor: scaffoldBgColor,
       body: Stack(
         children: [
           ContainerBackgroundWidget(

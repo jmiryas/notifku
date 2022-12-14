@@ -54,6 +54,7 @@ class _EarthquakeMagnitudeFivePlusScreenState
     double height = MediaQuery.of(context).size.height - statusBarHeight;
 
     return Scaffold(
+      backgroundColor: scaffoldBgColor,
       body: Stack(
         children: [
           ContainerBackgroundWidget(
