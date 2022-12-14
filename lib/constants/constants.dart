@@ -1,7 +1,12 @@
-const String GempaTerbaruAPI =
+const String gempaTerbaruAPI =
     "https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json";
 
-const String ShakeMapAPI = "https://data.bmkg.go.id/DataMKG/TEWS/";
+const String gempaMagnitude5Plus =
+    "https://data.bmkg.go.id/DataMKG/TEWS/gempaterkini.json";
+
+const String shakeMapAPI = "https://data.bmkg.go.id/DataMKG/TEWS/";
+
+const containerBackgroundColor = 0xFF227093;
 
 const earthquakeColor1 = 0xFFf5cd79;
 const earthquakeColor2 = 0xFFf19066;

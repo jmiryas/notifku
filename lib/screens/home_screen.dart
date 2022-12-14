@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
+import 'package:notifku/screens/about_us_screen.dart';
 
 import '../screens/earthquake_magnitude_five_plus_screen.dart';
 import '../screens/earthquake_screen.dart';
@@ -17,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const List<Widget> _widgetOptions = [
     EarthquakeScreen(),
     EarthquakeMagnitudeFivePlusScreen(),
+    AboutUsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -39,6 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Typicons.waves),
             label: "Gempa M. 5+",
+            backgroundColor: Color(0xFF227093),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Typicons.info),
+            label: "Tentang Kami",
             backgroundColor: Color(0xFF227093),
           ),
         ],
